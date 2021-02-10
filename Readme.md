@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Карина Королева](https://up.htmlacademy.ru/javascript/22/user/1526731).
-* Наставник: `Неизвестно`.
+* Наставник: [Владислав Кривокора](https://htmlacademy.ru/profile/krivokora).
 
 ---
 
