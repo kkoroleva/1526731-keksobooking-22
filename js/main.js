@@ -100,3 +100,5 @@ const createPlacesList = () => {
   let testPlacesList = new Array(10).fill(null).map(() => createPlace());
   return testPlacesList;
 };
+
+createPlacesList();
