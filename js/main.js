@@ -72,19 +72,19 @@ const createCoordinates = () => {
 };
 
 const createOffer = (coordinates) => {
-return {
-  title: getRandomArrayElement(titleList),
-  address: coordinates.x + ' ' + coordinates.y,
-  price: getRandomInt(),
-  type: getRandomArrayElement(typesList),
-  rooms: getRandomInt(1),
-  guests: getRandomInt(1),
-  checkin: getRandomArrayElement(checkinList),
-  checkout: getRandomArrayElement(checkoutList),
-  features: getRandomArray(featuresList),
-  description: getRandomArrayElement(descriptonList),
-  photos: getRandomArray(photosList),
-};
+  return {
+    title: getRandomArrayElement(titleList),
+    address: coordinates.x + ' ' + coordinates.y,
+    price: getRandomInt(),
+    type: getRandomArrayElement(typesList),
+    rooms: getRandomInt(1),
+    guests: getRandomInt(1),
+    checkin: getRandomArrayElement(checkinList),
+    checkout: getRandomArrayElement(checkoutList),
+    features: getRandomArray(featuresList),
+    description: getRandomArrayElement(descriptonList),
+    photos: getRandomArray(photosList),
+  };
 };
 
 const createPlace = () => {
@@ -96,4 +96,4 @@ const createPlace = () => {
   };
 };
 
-let testPlacesList = new Array(10).fill(null).map(() => createPlace());
+//let testPlacesList = new Array(10).fill(null).map(() => createPlace());
