@@ -3,12 +3,12 @@ import {getRandomFloat, getRandomInt, getRandomArrayElement, getRandomArray} fro
 //Creating 10 objects
 const avatarIndexMin = 1;
 const avatarIndexMax = 8;
-const titleList = ['place to live', 'one-night stay', 'place for a party', 'ideal for business trip'];
+const titleList = ['Уютное место для жизни', 'Остановиться на одну ночь', 'Место для вечеринки', 'Идеально для командировки'];
 const typesList = ['palace', 'flat', 'house', 'bungalow'];
 const checkinList = ['12:00', '13:00', '14:00'];
 const checkoutList = ['12:00', '13:00', '14:00'];
 const featuresList = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const descriptonList = ['best offer', 'cheap', 'best rating', 'discount', 'early bird'];
+const descriptonList = ['Лучшее предложение', 'Дешево', 'Восторженные отзывы', 'Скидка', 'Раннее бронирование'];
 const photosList = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 const xCoordinateMin = 35.65000;
 const xCoordinateMax = 35.70000;
@@ -35,8 +35,8 @@ const createOffer = (coordinates) => {
     address: coordinates.x + ' ' + coordinates.y,
     price: getRandomInt(),
     type: getRandomArrayElement(typesList),
-    rooms: getRandomInt(1),
-    guests: getRandomInt(1),
+    rooms: getRandomInt(1, 20),
+    guests: getRandomInt(1, 100),
     checkin: getRandomArrayElement(checkinList),
     checkout: getRandomArrayElement(checkoutList),
     features: getRandomArray(featuresList),
@@ -59,4 +59,4 @@ const createPlacesList = () => {
   return testPlacesList;
 };
 
-createPlacesList();
+export {createPlacesList};

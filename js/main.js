@@ -1,3 +1,1 @@
-import './data.js';
-
-
+import './similar-place.js';
