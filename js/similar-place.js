@@ -19,7 +19,7 @@ const getTypeOfPlace = (type) => {
 
 const getCapacityGuests = (guests) => {
   if (guests % 10 === 1) return guests + ' гостя';
-  else return guests + ' гостей';
+  return guests + ' гостей';
 };
 
 const getCapacityRooms = (rooms) => {
@@ -27,7 +27,7 @@ const getCapacityRooms = (rooms) => {
 
   if (rooms % 10 === 1) return rooms + ' комната для ';
   else if (rooms % 10 < 5 && rooms % 10 > 1) return rooms + ' комнаты для ';
-  else return rooms + ' комнат для ';
+  return rooms + ' комнат для ';
 };
 
 const getPhotos = (place, photosData) => {
@@ -36,7 +36,7 @@ const getPhotos = (place, photosData) => {
   popupPhotos.removeChild(photoTemplate);
   const photoGallery = document.createDocumentFragment();
   photosData.forEach(photoData => {
-    let img = photoTemplate.cloneNode(true);
+    const img = photoTemplate.cloneNode(true);
     img.src = photoData;
     photoGallery.appendChild(img);
   });
