@@ -10,11 +10,11 @@ const checkoutList = ['12:00', '13:00', '14:00'];
 const featuresList = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const descriptonList = ['Лучшее предложение', 'Дешево', 'Восторженные отзывы', 'Скидка', 'Раннее бронирование'];
 const photosList = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-const xCoordinateMin = 35.65000;
-const xCoordinateMax = 35.70000;
-const yCoordinateMin = 139.70000;
-const yCoordinateMax = 139.80000;
-const xyCoordinatePrecision = 5;
+const latCoordinateMin = 35.65000;
+const latCoordinateMax = 35.70000;
+const lngCoordinateMin = 139.70000;
+const lngCoordinateMax = 139.80000;
+const latLngCoordinatePrecision = 5;
 
 const createAuthor = () => {
   return {
@@ -24,15 +24,15 @@ const createAuthor = () => {
 
 const createCoordinates = () => {
   return {
-    x: getRandomFloat(xCoordinateMin, xCoordinateMax, xyCoordinatePrecision),
-    y: getRandomFloat(yCoordinateMin, yCoordinateMax, xyCoordinatePrecision),
+    lat: getRandomFloat(latCoordinateMin, latCoordinateMax, latLngCoordinatePrecision),
+    lng: getRandomFloat(lngCoordinateMin, lngCoordinateMax, latLngCoordinatePrecision),
   };
 };
 
 const createOffer = (coordinates) => {
   return {
     title: getRandomArrayElement(titleList),
-    address: coordinates.x + ' ' + coordinates.y,
+    address: coordinates.lat + ' ' + coordinates.lng,
     price: getRandomInt(),
     type: getRandomArrayElement(typesList),
     rooms: getRandomInt(1, 20),
@@ -54,8 +54,8 @@ const createPlace = () => {
   };
 };
 
-const createPlacesList = () => {
-  let testPlacesList = new Array(10).fill(null).map(() => createPlace());
+const createPlacesList = (num = 1) => {
+  let testPlacesList = new Array(num).fill(null).map(() => createPlace());
   return testPlacesList;
 };
 

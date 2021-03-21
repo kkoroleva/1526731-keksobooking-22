@@ -1,8 +1,3 @@
-import {
-  createPlacesList
-} from './data.js';
-
-
 const getTypeOfPlace = (typeData) => {
   const typesDictionary = {
     palace: 'Дворец',
@@ -46,8 +41,8 @@ const getPhotos = (place, photosData) => {
 };
 
 const getFeatures = (place, featuresData) => {
-  const popupFeatures = place.getElementsByClassName('popup__features');
-  popupFeatures.innerHtml = '';
+  const popupFeatures = place.querySelector('.popup__features');
+  popupFeatures.innerHTML = '';
 
   const featuresFragment = document.createDocumentFragment();
   const featureTemplate = document.createElement('li');
@@ -97,17 +92,4 @@ const fillCard = (place, {
   appendFragment(place, '.popup__photos', offer.photos, getPhotos(place, offer.photos));
 };
 
-const getSimilarPlacesList = (similarPlacesCount) => {
-  const testPlacesList = createPlacesList();
-  const similarPlaceTemplate = document.querySelector('#card').content.querySelector('.popup');
-  const similarPlaces = document.createDocumentFragment();
-  for (let i = 0; i < similarPlacesCount; i++) {
-    const similarPlace = similarPlaceTemplate.cloneNode(true);
-    fillCard(similarPlace, testPlacesList[i]);
-    similarPlaces.appendChild(similarPlace);
-  }
-  return similarPlaces;
-};
-
-const mapCanvas = document.querySelector('#map-canvas');
-mapCanvas.appendChild(getSimilarPlacesList(1));
+export {fillCard};
