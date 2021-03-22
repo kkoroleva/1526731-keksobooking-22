@@ -43,7 +43,6 @@ const getPhotos = (place, photosData) => {
 const getFeatures = (place, featuresData) => {
   const popupFeatures = place.querySelector('.popup__features');
   popupFeatures.innerHTML = '';
-
   const featuresFragment = document.createDocumentFragment();
   const featureTemplate = document.createElement('li');
   featureTemplate.classList.add('popup__feature');

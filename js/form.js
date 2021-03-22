@@ -17,7 +17,6 @@ title.addEventListener('input', () => {
   }
   title.reportValidity();
 });
-
 const minPriceToType = {
   bungalow: 0,
   flat: 1000,
