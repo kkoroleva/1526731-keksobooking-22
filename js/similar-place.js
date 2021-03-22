@@ -2,32 +2,34 @@ import {
   createPlacesList
 } from './data.js';
 
-const getTypeOfPlace = (type) => {
-  switch (type) {
-    case 'palace':
-      return 'Дворец';
-    case 'flat':
-      return 'Квартира';
-    case 'house':
-      return 'Дом';
-    case 'bungalow':
-      return 'Бунгало';
-    default:
-      return 'Download Data Error'
-  }
+
+const getTypeOfPlace = (typeData) => {
+  const typesDictionary = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalow: 'Бунгало',
+  };
+  return typesDictionary[typeData];
 };
 
 const getCapacityGuests = (guests) => {
-  if (guests % 10 === 1) return guests + ' гостя';
-  else return guests + ' гостей';
+  if (guests % 10 === 1) {
+    return guests + ' гостя';
+  }
+  return guests + ' гостей';
 };
 
 const getCapacityRooms = (rooms) => {
-  if (rooms < 20 && rooms > 10) return rooms + ' комнат для ';
-
-  if (rooms % 10 === 1) return rooms + ' комната для ';
-  else if (rooms % 10 < 5 && rooms % 10 > 1) return rooms + ' комнаты для ';
-  else return rooms + ' комнат для ';
+  if (rooms < 20 && rooms > 10) {
+    return rooms + ' комнат для ';
+  }
+  if (rooms % 10 === 1) {
+    return rooms + ' комната для ';
+  } else if (rooms % 10 < 5 && rooms % 10 > 1) {
+    return rooms + ' комнаты для ';
+  }
+  return rooms + ' комнат для ';
 };
 
 const getPhotos = (place, photosData) => {
@@ -36,7 +38,7 @@ const getPhotos = (place, photosData) => {
   popupPhotos.removeChild(photoTemplate);
   const photoGallery = document.createDocumentFragment();
   photosData.forEach(photoData => {
-    let img = photoTemplate.cloneNode(true);
+    const img = photoTemplate.cloneNode(true);
     img.src = photoData;
     photoGallery.appendChild(img);
   });
@@ -44,36 +46,55 @@ const getPhotos = (place, photosData) => {
 };
 
 const getFeatures = (place, featuresData) => {
-  const features = place.querySelectorAll('.popup__feature');
-  const convertFeaturesData = featuresData.map((str) => {
-    return 'popup__feature--' + str;
+  const popupFeatures = place.getElementsByClassName('popup__features');
+  popupFeatures.innerHtml = '';
+
+  const featuresFragment = document.createDocumentFragment();
+  const featureTemplate = document.createElement('li');
+  featureTemplate.classList.add('popup__feature');
+
+  featuresData.forEach(featuresData => {
+    const feature = featureTemplate.cloneNode(true);
+    feature.classList.add(`popup__feature--${featuresData}`);
+    featuresFragment.appendChild(feature);
   });
-  for (let i = 0; i < features.length; i++) {
-    features[i].classList.add('hidden');
-  }
-  for (let j = 0; j < convertFeaturesData.length; j++) {
-    for (let i = 0; i < features.length; i++) {
-      if (features[i].classList.contains(convertFeaturesData[j])) {
-        features[i].classList.remove('hidden');
-      }
-    }
-  }
+  return featuresFragment;
+};
+
+const addHidden = (place, elementClass) => {
+  place.querySelector(elementClass).classList.add('hidden');
+};
+
+const fillTextContent = (place, elementClass, content) => {
+  if (content) {
+    place.querySelector(elementClass).textContent = content;
+  } else addHidden(place, elementClass);
+};
+
+const appendFragment = (place, elementClass, data, fragment) => {
+  if (data.length !== 0) {
+    place.querySelector(elementClass).appendChild(fragment);
+  } else addHidden(place, elementClass);
 };
 
 const fillCard = (place, {
   author,
   offer,
 }) => {
-  author.avatar ? place.querySelector('.popup__avatar').src = author.avatar : place.querySelector('.popup__avatar').classList.add('hidden');
-  offer.title ? place.querySelector('.popup__title').textContent = offer.title : place.querySelector('.popup__title').classList.add('hidden');
-  offer.address ? place.querySelector('.popup__text--address').textContent = offer.address : place.querySelector('.popup__text--address').classList.add('hidden');
-  offer.price ? place.querySelector('.popup__text--price').textContent = offer.price + ' ₽/ночь' : place.querySelector('.popup__text--price').classList.add('hidden');
-  offer.type ? place.querySelector('.popup__type').textContent = getTypeOfPlace(offer.type) : place.querySelector('.popup__type').classList.add('hidden');
-  (offer.rooms != undefined && offer.guests != undefined) ? place.querySelector('.popup__text--capacity').textContent = getCapacityRooms(offer.rooms) + getCapacityGuests(offer.guests): place.querySelector('.popup__text--capacity').classList.add('hidden');
-  (offer.checkin && offer.checkout) ? place.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.checkin + ' выезд до ' + offer.checkout: place.querySelector('.popup__text--time').classList.add('hidden');
-  offer.features.length !== 0 ? getFeatures(place, offer.features) : place.querySelector('.popup__features').classList.add('hidden');
-  offer.description ? place.querySelector('.popup__description').textContent = offer.description : place.querySelector('.popup__description').classList.add('hidden');
-  offer.photos.length !== 0 ? place.querySelector('.popup__photos').appendChild(getPhotos(place, offer.photos)) : place.querySelector('.popup__photos').classList.add('hidden');
+  const popupAvatar = place.querySelector('.popup__avatar');
+  author.avatar ? popupAvatar.src = author.avatar : addHidden(place, '.popup__avatar');
+
+  fillTextContent(place, '.popup__title', offer.title);
+  fillTextContent(place, '.popup__text--address', offer.address);
+  fillTextContent(place, '.popup__text--price', `${offer.price} ₽/ночь`);
+  fillTextContent(place, '.popup__type', getTypeOfPlace(offer.type));
+  fillTextContent(place, '.popup__description', offer.description);
+
+  (offer.rooms != undefined && offer.guests != undefined) ? fillTextContent(place, '.popup__text--capacity', `${getCapacityRooms(offer.rooms)} ${getCapacityGuests(offer.guests)}`) : addHidden(place, '.popup__text--capacity');
+  (offer.checkin && offer.checkout) ? fillTextContent(place, '.popup__text--time', `'Заезд после ${offer.checkin} выезд до ${offer.checkout}`) : addHidden(place, '.popup__text--time');
+
+  appendFragment(place, '.popup__features', offer.features, getFeatures(place, offer.features));
+  appendFragment(place, '.popup__photos', offer.photos, getPhotos(place, offer.photos));
 };
 
 const getSimilarPlacesList = (similarPlacesCount) => {

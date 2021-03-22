@@ -20,24 +20,20 @@ const getRandomArrayElement = (array) => {
   return array[getRandomInt(0, array.length - 1)];
 };
 
-const shuffleArray = (array) => {
-  for (let i = 0; i < array.length; i++) {
-    let shufflerIndex = getRandomInt(0, array.length - 1);
-    let swap = array[i];
-    array[i] = array[shufflerIndex];
-    array[shufflerIndex] = swap;
-  }
-  return array;
-};
-
 const getRandomArray = (refArray) => {
   let resultLength = getRandomInt(1, refArray.length - 1);
-  let resultArray = new Array(resultLength).fill(null);
-  refArray = shuffleArray(refArray);
+  let resultArray = [];
   for (let i = 0; i < resultLength; i++) {
-    resultArray [i] = refArray [i];
+    if (getRandomInt(0, 1) === 1) {
+      resultArray.push(refArray[i]);
+    }
   }
   return resultArray;
 };
 
-export {getRandomFloat, getRandomInt, getRandomArrayElement, getRandomArray};
+export {
+  getRandomFloat,
+  getRandomInt,
+  getRandomArrayElement,
+  getRandomArray
+};
