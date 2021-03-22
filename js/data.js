@@ -3,7 +3,7 @@ import {getRandomFloat, getRandomInt, getRandomArrayElement, getRandomArray} fro
 //Creating 10 objects
 const avatarIndexMin = 1;
 const avatarIndexMax = 8;
-const titleList = ['Уютное место для жизни', 'Остановиться на одну ночь', 'Место для вечеринки', 'Идеально для командировки'];
+const titleList = ['Уютное место для жизни и отдыха', 'Если нужно остановиться на одну ночь', 'Место для вечеринки в шумной компании', 'Идеально для людей в командировке'];
 const typesList = ['palace', 'flat', 'house', 'bungalow'];
 const checkinList = ['12:00', '13:00', '14:00'];
 const checkoutList = ['12:00', '13:00', '14:00'];

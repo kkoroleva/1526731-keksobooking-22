@@ -92,4 +92,4 @@ const fillCard = (place, {
   appendFragment(place, '.popup__photos', offer.photos, getPhotos(place, offer.photos));
 };
 
-export {fillCard};
+export {fillCard, getTypeOfPlace};
