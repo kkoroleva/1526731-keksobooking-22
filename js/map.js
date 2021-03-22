@@ -7,11 +7,6 @@ import {
   fillCard
 } from './similar-place.js';
 
-import {
-  createPlacesList
-} from './data.js';
-
-
 /* global L:readonly */
 //Как строка выше по-хитрому влияет на линтер?
 const mapCanvas = L.map('map-canvas')
@@ -21,7 +16,7 @@ const mapCanvas = L.map('map-canvas')
   .setView({
     lat: 35.67500,
     lng: 139.75000,
-  }, 13);
+  }, 10);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -69,8 +64,8 @@ const putMarkersOnMap = (pointsArr) => {
     });
     const plainPinMarker = L.marker(
       {
-        lat: point.coordinates.lat,
-        lng: point.coordinates.lng,
+        lat: point.location.lat,
+        lng: point.location.lng,
       },
       {
         icon: plainPinIcon,
@@ -80,6 +75,4 @@ const putMarkersOnMap = (pointsArr) => {
   });
 };
 
-const numOfPlaces = 20;
-const points = createPlacesList(numOfPlaces);
-putMarkersOnMap(points);
+export {putMarkersOnMap}

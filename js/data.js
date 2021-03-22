@@ -29,10 +29,10 @@ const createCoordinates = () => {
   };
 };
 
-const createOffer = (coordinates) => {
+const createOffer = (location) => {
   return {
     title: getRandomArrayElement(titleList),
-    address: coordinates.lat + ' ' + coordinates.lng,
+    address: location.lat + ' ' + location.lng,
     price: getRandomInt(),
     type: getRandomArrayElement(typesList),
     rooms: getRandomInt(1, 20),
@@ -49,12 +49,12 @@ const createPlace = () => {
   let randCoordinates = createCoordinates();
   return {
     author: createAuthor(),
-    coordinates: randCoordinates,
+    location: randCoordinates,
     offer: createOffer(randCoordinates),
   };
 };
 
-const createPlacesList = (num = 1) => {
+const createPlacesList = (num = 10) => {
   let testPlacesList = new Array(num).fill(null).map(() => createPlace());
   return testPlacesList;
 };
