@@ -86,7 +86,7 @@ const fillCard = (place, {
   fillTextContent(place, '.popup__description', offer.description);
 
   (offer.rooms != undefined && offer.guests != undefined) ? fillTextContent(place, '.popup__text--capacity', `${getCapacityRooms(offer.rooms)} ${getCapacityGuests(offer.guests)}`) : addHidden(place, '.popup__text--capacity');
-  (offer.checkin && offer.checkout) ? fillTextContent(place, '.popup__text--time', `'Заезд после ${offer.checkin} выезд до ${offer.checkout}`) : addHidden(place, '.popup__text--time');
+  (offer.checkin && offer.checkout) ? fillTextContent(place, '.popup__text--time', `Заезд после ${offer.checkin} выезд до ${offer.checkout}`) : addHidden(place, '.popup__text--time');
 
   appendFragment(place, '.popup__features', offer.features, getFeatures(place, offer.features));
   appendFragment(place, '.popup__photos', offer.photos, getPhotos(place, offer.photos));

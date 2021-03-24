@@ -1,6 +1,8 @@
 import {
-  turnActiveMode,
-  setCoordinates
+  activateAdForm,
+  setCoordinates,
+  submitData,
+  DEFAULT_COORDINATES
 } from './form.js';
 
 import {
@@ -8,14 +10,13 @@ import {
 } from './similar-place.js';
 
 /* global L:readonly */
-//Как строка выше по-хитрому влияет на линтер?
 const mapCanvas = L.map('map-canvas')
   .on('load', () => {
-    turnActiveMode();
+    activateAdForm();
   })
   .setView({
-    lat: 35.67500,
-    lng: 139.75000,
+    lat: DEFAULT_COORDINATES.lat,
+    lng: DEFAULT_COORDINATES.lng,
   }, 10);
 
 L.tileLayer(
@@ -25,15 +26,15 @@ L.tileLayer(
 ).addTo(mapCanvas);
 
 const mainPinIcon = L.icon({
-  iconUrl: '../img/main-pin.svg',
+  iconUrl: 'img/main-pin.svg',
   iconSize: [50, 50],
   iconAnchor: [25, 50],
 });
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.67500,
-    lng: 139.75000,
+    lat: DEFAULT_COORDINATES.lat,
+    lng: DEFAULT_COORDINATES.lng,
   },
   {
     draggable: true,
@@ -48,6 +49,7 @@ mainPinMarker.on('moveend', (evt) => {
   setCoordinates(coordinates.lat, coordinates.lng);
 });
 
+
 const createBallon = (point) => {
   const similarPlaceTemplate = document.querySelector('#card').content.querySelector('.popup');
   const similarPlace = similarPlaceTemplate.cloneNode(true);
@@ -58,7 +60,7 @@ const createBallon = (point) => {
 const putMarkersOnMap = (pointsArr) => {
   pointsArr.forEach((point) => {
     const plainPinIcon = L.icon({
-      iconUrl: '../img/pin.svg',
+      iconUrl: 'img/pin.svg',
       iconSize: [40, 40],
       iconAnchor: [20, 40],
     });
@@ -74,5 +76,7 @@ const putMarkersOnMap = (pointsArr) => {
     plainPinMarker.addTo(mapCanvas).bindPopup(createBallon(point));
   });
 };
+
+submitData(mainPinMarker);
 
 export {putMarkersOnMap}
