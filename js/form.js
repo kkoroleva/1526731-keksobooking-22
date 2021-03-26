@@ -1,7 +1,6 @@
 import {
   getTypeOfPlace
 } from './similar-place.js';
-
 import {
   fetchDataToServer
 } from './server.js';
