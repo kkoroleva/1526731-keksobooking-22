@@ -116,11 +116,13 @@ const findSimilarPlaces = (places) => {
   return similarPlacesList;
 };
 
+/* global _:readonly */
+
 const onFilterChange = (newPlaces, markers) => {
-  FILTER_FORM.addEventListener('change', () => {
+  FILTER_FORM.addEventListener('change', _.debounce(() => {
     markers = clearMap(markers);
     markers = putMarkersOnMap(newPlaces);
-  });
+  }, 1000));
 };
 
 deactivateFilter();

@@ -61,8 +61,6 @@ const fetchDataToServer = (formData, onDataSendSuccess, onDataSendError, formRes
 
 fetchDataFromServer();
 
-//submitData(fetchDataToServer); //не получается отправлять данные повторно.
-
 export {
   fetchDataToServer
 };
