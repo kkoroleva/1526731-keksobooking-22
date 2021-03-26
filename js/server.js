@@ -1,16 +1,15 @@
 import {
-  putMarkersOnMap,
-  clearMap
+  putMarkersOnMap
 } from './map.js';
 import {
   activateFilter,
   resetFilter
 } from './filter.js';
-import {
+/*import {
   submitData
-} from './form.js';
+} from './form.js';*/
 
-
+import {onFilterChange} from './filter.js';
 
 const onErrorDataLoading = () => {
   const errorMessage = document.createElement('p');
@@ -62,15 +61,7 @@ const fetchDataToServer = (formData, onDataSendSuccess, onDataSendError, formRes
 
 fetchDataFromServer();
 
-const FILTER_FORM = document.querySelector('.map__filters'); //не получается этот обработчик запихнуть в filter.js
-const onFilterChange = (newPlaces, markers) => {
-  FILTER_FORM.addEventListener('change', () => {
-    markers = clearMap(markers);
-    markers = putMarkersOnMap(newPlaces);
-  });
-};
-
-submitData(fetchDataToServer); //не получается отправлять данные повторно.
+//submitData(fetchDataToServer); //не получается отправлять данные повторно.
 
 export {
   fetchDataToServer

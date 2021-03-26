@@ -2,6 +2,13 @@ import {
   getTypeOfPlace
 } from './similar-place.js';
 
+import {
+  fetchDataToServer
+} from './server.js';
+import {
+  resetFilter
+} from './filter.js';
+
 const DEFAULT_COORDINATES = {
   lat: 35.67500,
   lng: 139.75000,
@@ -75,7 +82,6 @@ TIME_FIELDSET.addEventListener('change', (evt) => {
 const syncRoomsAndGuests = (value) => {
   const guestsFieldset = AD_FORM.querySelector('#capacity');
   const guestOptions = guestsFieldset.querySelectorAll('option');
-  //Вложить объекты
   const roomsToGuestsSyncLogic = {
     '1': ['1'],
     '2': ['1', '2'],
@@ -107,6 +113,7 @@ const formReset = () => {
   PRICE.value = '';
   setCoordinates();
   setPriceToType(TYPE.value);
+  ROOMS_FIELDSET.querySelector('option').selected = true;
   syncRoomsAndGuests('1');
   setCheckInOutTime('12:00');
   AD_FORM.querySelector('#avatar').value = '';
@@ -122,45 +129,38 @@ const formReset = () => {
 AD_FORM.addEventListener('reset', (evt) => {
   evt.preventDefault();
   formReset();
+  resetFilter();
 });
-
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const onDataSendSuccess = () => {
-  const successTemplate = document.querySelector('#success').content.querySelector('.success');
   MAIN.appendChild(successTemplate);
-  window.addEventListener('click', () => {
+  successTemplate.addEventListener('click', () => {
     MAIN.removeChild(successTemplate);
   });
-  window.addEventListener('keydown', (evt) => {
+  successTemplate.addEventListener('keydown', (evt) => {
     if (evt.key === ('Escape' || 'Esc')) {
       MAIN.removeChild(successTemplate);
     }
   });
 };
-
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const onDataSendError = () => {
-  const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-  const tryAgainButton = errorTemplate.querySelector('.error__button');
   MAIN.appendChild(errorTemplate);
-  tryAgainButton.addEventListener('click', () => {
+  errorTemplate.addEventListener('click', () => {
     MAIN.removeChild(errorTemplate);
   });
-  window.addEventListener('click', () => {
-    MAIN.removeChild(errorTemplate);
-  });
-  window.addEventListener('keydown', (evt) => {
+  errorTemplate.addEventListener('keydown', (evt) => {
     if (evt.key === ('Escape' || 'Esc')) {
       MAIN.removeChild(errorTemplate);
     }
   });
 };
 
-const submitData = (fetchDataToServer) => {
-  AD_FORM.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const formData = new FormData(evt.target);
-    fetchDataToServer(formData, onDataSendSuccess, onDataSendError, formReset);
-  });
-};
+AD_FORM.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const formData = new FormData(evt.target);
+  fetchDataToServer(formData, onDataSendSuccess, onDataSendError, formReset);
+});
 
 const deactivateAdForm = () => {
   AD_FORM.classList.add('ad-form--disabled');
@@ -182,6 +182,5 @@ deactivateAdForm();
 
 export {
   activateAdForm,
-  submitData,
   setCoordinates
 };

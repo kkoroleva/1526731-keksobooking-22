@@ -1,3 +1,8 @@
+import {
+  putMarkersOnMap,
+  clearMap
+} from './map.js';
+
 
 
 const FILTER_FORM = document.querySelector('.map__filters');
@@ -111,12 +116,18 @@ const findSimilarPlaces = (places) => {
   return similarPlacesList;
 };
 
-
+const onFilterChange = (newPlaces, markers) => {
+  FILTER_FORM.addEventListener('change', () => {
+    markers = clearMap(markers);
+    markers = putMarkersOnMap(newPlaces);
+  });
+};
 
 deactivateFilter();
 
 export {
   activateFilter,
   resetFilter,
-  findSimilarPlaces
+  findSimilarPlaces,
+  onFilterChange
 };
