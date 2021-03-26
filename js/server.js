@@ -1,9 +1,20 @@
-import {putMarkersOnMap} from './map.js';
-const SIMILAR_ADS = 10;
+import {
+  putMarkersOnMap,
+  clearMap
+} from './map.js';
+import {
+  activateFilter,
+  resetFilter
+} from './filter.js';
+import {
+  submitData
+} from './form.js';
+
+
 
 const onErrorDataLoading = () => {
   const errorMessage = document.createElement('p');
-  errorMessage.textContent = 'Попытка загрузить данные с сервера провалилась. Список похожих объявлений недоступен. Проверьте интернет cоединение и обновите страницу.';
+  errorMessage.innerHTML = 'Попытка загрузить данные с сервера провалилась. <br> Список похожих объявлений и фильтр недоступны. Проверьте интернет cоединение и обновите страницу.';
   errorMessage.style = 'text-align: center;';
   const errorBlock = document.createElement('div');
   errorBlock.appendChild(errorMessage);
@@ -14,13 +25,53 @@ const onErrorDataLoading = () => {
 
 const fetchDataFromServer = () => {
   fetch('https://22.javascript.pages.academy/keksobooking/data')
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
     .then((places) => {
-      putMarkersOnMap(places.slice(0, SIMILAR_ADS));
+      const markers = putMarkersOnMap(places);
+      activateFilter();
+      const newPlaces = places.slice();
+      onFilterChange(newPlaces, markers);
     })
     .catch(() => {
       onErrorDataLoading();
     });
 };
 
+
+const fetchDataToServer = (formData, onDataSendSuccess, onDataSendError, formReset) => {
+  fetch(
+    'https://22.javascript.pages.academy/keksobooking', {
+      method: 'POST',
+      type: 'multipart/form-data',
+      body: formData,
+    })
+    .then((response) => response.json())
+    .then(() => {
+      onDataSendSuccess();
+      formReset();
+      resetFilter();
+    })
+    .catch(() => {
+      onDataSendError();
+    });
+};
+
 fetchDataFromServer();
+
+const FILTER_FORM = document.querySelector('.map__filters'); //не получается этот обработчик запихнуть в filter.js
+const onFilterChange = (newPlaces, markers) => {
+  FILTER_FORM.addEventListener('change', () => {
+    markers = clearMap(markers);
+    markers = putMarkersOnMap(newPlaces);
+  });
+};
+
+submitData(fetchDataToServer); //не получается отправлять данные повторно.
+
+export {
+  fetchDataToServer
+};

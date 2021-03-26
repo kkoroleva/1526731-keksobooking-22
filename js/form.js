@@ -2,10 +2,6 @@ import {
   getTypeOfPlace
 } from './similar-place.js';
 
-import {
-  resetFilter
-} from './filter.js';
-
 const DEFAULT_COORDINATES = {
   lat: 35.67500,
   lng: 139.75000,
@@ -80,7 +76,7 @@ const syncRoomsAndGuests = (value) => {
   const guestsFieldset = AD_FORM.querySelector('#capacity');
   const guestOptions = guestsFieldset.querySelectorAll('option');
   //Вложить объекты
-  const roomsToGuests = {
+  const roomsToGuestsSyncLogic = {
     '1': ['1'],
     '2': ['1', '2'],
     '3': ['1', '2', '3'],
@@ -88,7 +84,7 @@ const syncRoomsAndGuests = (value) => {
   };
 
   guestOptions.forEach(field => {
-    if (roomsToGuests[value].includes(field.value)) {
+    if (roomsToGuestsSyncLogic[value].includes(field.value)) {
       field.selected = true;
       field.disabled = false;
     } else {
@@ -128,7 +124,6 @@ AD_FORM.addEventListener('reset', (evt) => {
   formReset();
 });
 
-
 const onDataSendSuccess = () => {
   const successTemplate = document.querySelector('#success').content.querySelector('.success');
   MAIN.appendChild(successTemplate);
@@ -159,32 +154,13 @@ const onDataSendError = () => {
   });
 };
 
-
-const submitData = (mainPin) => {
+const submitData = (fetchDataToServer) => {
   AD_FORM.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
-    fetch(
-      'https://22.javascript.pages.academy/keksobooking', {
-        method: 'POST',
-        type: 'multipart/form-data',
-        body: formData,
-      })
-      .then((response) => response.json())
-      .then(() => {
-        onDataSendSuccess();
-        formReset();
-        resetFilter();
-        mainPin.setLatLng([DEFAULT_COORDINATES.lat, DEFAULT_COORDINATES.lng]);
-      })
-      .catch(() => {
-        onDataSendError();
-      });
+    fetchDataToServer(formData, onDataSendSuccess, onDataSendError, formReset);
   });
-  return true;
 };
-
-
 
 const deactivateAdForm = () => {
   AD_FORM.classList.add('ad-form--disabled');
@@ -206,7 +182,6 @@ deactivateAdForm();
 
 export {
   activateAdForm,
-  setCoordinates,
   submitData,
-  DEFAULT_COORDINATES
+  setCoordinates
 };

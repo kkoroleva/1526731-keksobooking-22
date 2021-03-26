@@ -1,13 +1,22 @@
 import {
   activateAdForm,
-  setCoordinates,
-  submitData,
-  DEFAULT_COORDINATES
+  setCoordinates
 } from './form.js';
 
 import {
   fillCard
 } from './similar-place.js';
+
+import {
+  findSimilarPlaces
+} from './filter.js';
+
+const DEFAULT_COORDINATES = {
+  lat: 35.67500,
+  lng: 139.75000,
+};
+
+const SIMILAR_ADS = 10;
 
 /* global L:readonly */
 const mapCanvas = L.map('map-canvas')
@@ -57,8 +66,19 @@ const createBallon = (point) => {
   return similarPlace;
 };
 
+const clearMap = (markers) => {
+  markers.forEach(marker => {
+    marker.remove();
+  });
+  mainPinMarker.addTo(mapCanvas);
+  markers = [];
+  return markers;
+};
+
 const putMarkersOnMap = (pointsArr) => {
-  pointsArr.forEach((point) => {
+  const filtered = findSimilarPlaces(pointsArr).slice(0, SIMILAR_ADS);
+  let markerList = [];
+  filtered.forEach((filtered) => {
     const plainPinIcon = L.icon({
       iconUrl: 'img/pin.svg',
       iconSize: [40, 40],
@@ -66,17 +86,21 @@ const putMarkersOnMap = (pointsArr) => {
     });
     const plainPinMarker = L.marker(
       {
-        lat: point.location.lat,
-        lng: point.location.lng,
+        lat: filtered.location.lat,
+        lng: filtered.location.lng,
       },
       {
         icon: plainPinIcon,
       },
     );
-    plainPinMarker.addTo(mapCanvas).bindPopup(createBallon(point));
+    plainPinMarker.addTo(mapCanvas).bindPopup(createBallon(filtered));
+    markerList.push(plainPinMarker);
   });
+  return markerList;
 };
 
-submitData(mainPinMarker);
+//clearMap()
 
-export {putMarkersOnMap}
+//submitData();
+
+export {putMarkersOnMap, clearMap}
