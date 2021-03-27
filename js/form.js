@@ -108,6 +108,8 @@ const setCoordinates = (lat = DEFAULT_COORDINATES.lat, lng = DEFAULT_COORDINATES
 };
 
 const formReset = () => {
+  const avatarPreviewBlock = AD_FORM.querySelector('.ad-form-header__preview');
+  avatarPreviewBlock.querySelector('img').src = 'img/muffin-grey.svg';
   TITLE.value = '';
   TYPE.value = 'house';
   PRICE.value = '';
@@ -124,6 +126,7 @@ const formReset = () => {
   features.forEach(feature => {
     feature.checked = false;
   });
+  AD_FORM.querySelector('.ad-form__photo').innerHTML = '';
 };
 
 AD_FORM.addEventListener('reset', (evt) => {
