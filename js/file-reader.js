@@ -8,7 +8,6 @@ const PLACE_PREVIEW = document.createElement('img');
 PLACE_PREVIEW.width = 70;
 PLACE_PREVIEW.height = 70;
 PLACE_PREVIEW.alt = 'Фотография места';
-PLACE_PREVIEW_BLOCK.appendChild(PLACE_PREVIEW);
 
 FILE_CHOOSER_AVATAR.addEventListener('change', () => {
   const avatarPreviewDiv = AD_FORM.querySelector('.ad-form-header__preview');
@@ -31,6 +30,8 @@ FILE_CHOOSER_AVATAR.addEventListener('change', () => {
 });
 
 FILE_CHOOSER_PLACE.addEventListener('change', () => {
+
+  PLACE_PREVIEW_BLOCK.appendChild(PLACE_PREVIEW);
   const file = FILE_CHOOSER_PLACE.files[0];
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((it) => {
