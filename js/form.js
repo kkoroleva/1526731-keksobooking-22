@@ -27,6 +27,8 @@ const TIME_FIELDSET = AD_FORM.querySelector('.ad-form__element--time');
 const ROOMS_FIELDSET = AD_FORM.querySelector('#room_number');
 const ADDRESS_FIELD = AD_FORM.querySelector('#address');
 const MAIN = document.querySelector('main');
+const ERROR_TEMPLATE = document.querySelector('#error').content.querySelector('.error');
+const SUCCESS_TEMPLATE = document.querySelector('#success').content.querySelector('.success');
 
 TITLE.addEventListener('input', () => {
   if (TITLE.validity.tooShort) {
@@ -134,30 +136,33 @@ AD_FORM.addEventListener('reset', (evt) => {
   formReset();
   resetFilter();
 });
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
+
 const onDataSendSuccess = () => {
-  MAIN.appendChild(successTemplate);
-  successTemplate.addEventListener('click', () => {
-    MAIN.removeChild(successTemplate);
-  });
-  successTemplate.addEventListener('keydown', (evt) => {
-    if (evt.key === ('Escape' || 'Esc')) {
-      MAIN.removeChild(successTemplate);
-    }
-  });
+  MAIN.appendChild(SUCCESS_TEMPLATE);
 };
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+
+SUCCESS_TEMPLATE.addEventListener('click', () => {
+  MAIN.removeChild(SUCCESS_TEMPLATE);
+});
+
+SUCCESS_TEMPLATE.addEventListener('keydown', (evt) => {
+  if (evt.key === ('Escape' || 'Esc')) {
+    MAIN.removeChild(SUCCESS_TEMPLATE);
+  }
+});
+
 const onDataSendError = () => {
-  MAIN.appendChild(errorTemplate);
-  errorTemplate.addEventListener('click', () => {
-    MAIN.removeChild(errorTemplate);
-  });
-  errorTemplate.addEventListener('keydown', (evt) => {
-    if (evt.key === ('Escape' || 'Esc')) {
-      MAIN.removeChild(errorTemplate);
-    }
-  });
+  MAIN.appendChild(ERROR_TEMPLATE);
 };
+
+ERROR_TEMPLATE.addEventListener('click', () => {
+  MAIN.removeChild(ERROR_TEMPLATE);
+});
+ERROR_TEMPLATE.addEventListener('keydown', (evt) => {
+  if (evt.key === ('Escape' || 'Esc')) {
+    MAIN.removeChild(ERROR_TEMPLATE);
+  }
+});
 
 AD_FORM.addEventListener('submit', (evt) => {
   evt.preventDefault();

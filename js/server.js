@@ -5,9 +5,6 @@ import {
   activateFilter,
   resetFilter
 } from './filter.js';
-/*import {
-  submitData
-} from './form.js';*/
 
 import {onFilterChange} from './filter.js';
 

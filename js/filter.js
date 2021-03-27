@@ -3,8 +3,6 @@ import {
   clearMap
 } from './map.js';
 
-
-
 const FILTER_FORM = document.querySelector('.map__filters');
 const SELECT_FILTERS = FILTER_FORM.querySelectorAll('select');
 const CHECKBOX_FILTER = FILTER_FORM.querySelector('fieldset');
@@ -80,9 +78,8 @@ const checkIfSimilarFeatures = (features, enteredFeatures) => {
 };
 
 const checkIfSimilarPlace = (offer, filter) => {
-  //console.log('offer ' + offer.type + ' filter ' + filter.type);
   return checkIfSimilarType(offer.type, filter.type)
-  && checkIfSimilarPrice(offer.price, filter.price)//
+  && checkIfSimilarPrice(offer.price, filter.price)
   && checkIfSimilarRooms(offer.rooms, filter.rooms)
   && checkIfSimilarGuests(offer.guests, filter.guests)
   && checkIfSimilarFeatures(offer.features, filter.features);
@@ -117,7 +114,6 @@ const findSimilarPlaces = (places) => {
 };
 
 /* global _:readonly */
-
 const onFilterChange = (newPlaces, markers) => {
   FILTER_FORM.addEventListener('change', _.debounce(() => {
     markers = clearMap(markers);

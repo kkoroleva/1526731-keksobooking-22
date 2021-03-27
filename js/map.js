@@ -40,16 +40,13 @@ const mainPinIcon = L.icon({
   iconAnchor: [25, 50],
 });
 
-const mainPinMarker = L.marker(
-  {
-    lat: DEFAULT_COORDINATES.lat,
-    lng: DEFAULT_COORDINATES.lng,
-  },
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  },
-);
+const mainPinMarker = L.marker({
+  lat: DEFAULT_COORDINATES.lat,
+  lng: DEFAULT_COORDINATES.lng,
+}, {
+  draggable: true,
+  icon: mainPinIcon,
+});
 
 mainPinMarker.addTo(mapCanvas);
 
@@ -84,23 +81,19 @@ const putMarkersOnMap = (pointsArr) => {
       iconSize: [40, 40],
       iconAnchor: [20, 40],
     });
-    const plainPinMarker = L.marker(
-      {
-        lat: filtered.location.lat,
-        lng: filtered.location.lng,
-      },
-      {
-        icon: plainPinIcon,
-      },
-    );
+    const plainPinMarker = L.marker({
+      lat: filtered.location.lat,
+      lng: filtered.location.lng,
+    }, {
+      icon: plainPinIcon,
+    });
     plainPinMarker.addTo(mapCanvas).bindPopup(createBallon(filtered));
     markerList.push(plainPinMarker);
   });
   return markerList;
 };
 
-//clearMap()
-
-//submitData();
-
-export {putMarkersOnMap, clearMap}
+export {
+  putMarkersOnMap,
+  clearMap
+}
