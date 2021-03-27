@@ -63,13 +63,17 @@ const addHidden = (place, elementClass) => {
 const fillTextContent = (place, elementClass, content) => {
   if (content) {
     place.querySelector(elementClass).textContent = content;
-  } else addHidden(place, elementClass);
+  } else {
+    addHidden(place, elementClass);
+  }
 };
 
 const appendFragment = (place, elementClass, data, fragment) => {
   if (data.length !== 0) {
     place.querySelector(elementClass).appendChild(fragment);
-  } else addHidden(place, elementClass);
+  } else {
+    addHidden(place, elementClass);
+  }
 };
 
 const fillCard = (place, {
@@ -85,7 +89,7 @@ const fillCard = (place, {
   fillTextContent(place, '.popup__type', getTypeOfPlace(offer.type));
   fillTextContent(place, '.popup__description', offer.description);
 
-  (offer.rooms != undefined && offer.guests != undefined) ? fillTextContent(place, '.popup__text--capacity', `${getCapacityRooms(offer.rooms)} ${getCapacityGuests(offer.guests)}`) : addHidden(place, '.popup__text--capacity');
+  (offer.rooms !== undefined && offer.guests !== undefined) ? fillTextContent(place, '.popup__text--capacity', `${getCapacityRooms(offer.rooms)} ${getCapacityGuests(offer.guests)}`) : addHidden(place, '.popup__text--capacity');
   (offer.checkin && offer.checkout) ? fillTextContent(place, '.popup__text--time', `Заезд после ${offer.checkin} выезд до ${offer.checkout}`) : addHidden(place, '.popup__text--time');
 
   appendFragment(place, '.popup__features', offer.features, getFeatures(place, offer.features));
