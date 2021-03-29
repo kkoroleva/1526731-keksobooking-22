@@ -6,6 +6,7 @@ import {
 const FILTER_FORM = document.querySelector('.map__filters');
 const SELECT_FILTERS = FILTER_FORM.querySelectorAll('select');
 const CHECKBOX_FILTER = FILTER_FORM.querySelector('fieldset');
+const FILTER_DELAY = 1000;
 
 const resetFilter = () => {
   SELECT_FILTERS.forEach(filterFormElement => {
@@ -37,15 +38,17 @@ const checkIfSimilarType = (type, enteredType) => {
 };
 
 const checkIfSimilarPrice = (price, enteredPrice) => {
+  const lowPriceTop = 10000;
+  const middlePriceTop = 50000;
   switch (enteredPrice) {
     case 'any':
       return true;
     case 'low':
-      return (price < 10000 && price >= 0);
+      return (price < lowPriceTop && price >= 0);
     case 'middle':
-      return (price >= 10000 && price < 50000);
+      return (price >= lowPriceTop && price < middlePriceTop);
     case 'high':
-      return price >= 50000;
+      return price >= middlePriceTop;
     default:
       return false;
   }
@@ -118,7 +121,7 @@ const onFilterChange = (newPlaces, markers) => {
   FILTER_FORM.addEventListener('change', _.debounce(() => {
     markers = clearMap(markers);
     markers = putMarkersOnMap(newPlaces);
-  }, 1000));
+  }, FILTER_DELAY));
 };
 
 deactivateFilter();

@@ -37,7 +37,6 @@ const fetchDataFromServer = () => {
     });
 };
 
-
 const fetchDataToServer = (formData, onDataSendSuccess, onDataSendError, formReset) => {
   fetch(
     'https://22.javascript.pages.academy/keksobooking', {

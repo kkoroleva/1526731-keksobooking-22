@@ -30,6 +30,7 @@ const MAIN = document.querySelector('main');
 const ERROR_TEMPLATE = document.querySelector('#error').content.querySelector('.error');
 const SUCCESS_TEMPLATE = document.querySelector('#success').content.querySelector('.success');
 
+
 TITLE.addEventListener('input', () => {
   if (TITLE.validity.tooShort) {
     const customAlert = `Заголовок объявления должен быть длиной не менее ${TITLE.minLength} симв. Пожалуйста, добавьте ${TITLE.minLength - TITLE.value.length} симв.`;
@@ -137,32 +138,35 @@ AD_FORM.addEventListener('reset', (evt) => {
   resetFilter();
 });
 
-const onDataSendSuccess = () => {
-  MAIN.appendChild(SUCCESS_TEMPLATE);
+const deleteMessageHandler = (evt, message) => {
+  if (evt.key === ('Escape' || 'Esc')) {
+    MAIN.removeChild(message);
+  }
+  document.removeEventListener('keydown', deleteMessageHandler);
 };
 
-SUCCESS_TEMPLATE.addEventListener('click', () => {
-  MAIN.removeChild(SUCCESS_TEMPLATE);
-});
 
-SUCCESS_TEMPLATE.addEventListener('keydown', (evt) => {
-  if (evt.key === ('Escape' || 'Esc')) {
-    MAIN.removeChild(SUCCESS_TEMPLATE);
-  }
-});
+const onDataSendSuccess = () => {
+  const successMessage = SUCCESS_TEMPLATE.cloneNode(true);
+  MAIN.appendChild(successMessage);
+  successMessage.addEventListener('click', () => {
+    MAIN.removeChild(successMessage);
+  });
+  document.addEventListener('keydown', (evt) => {
+    deleteMessageHandler(evt, successMessage);
+  }, {once: true});
+};
 
 const onDataSendError = () => {
-  MAIN.appendChild(ERROR_TEMPLATE);
+  const errorMessage = ERROR_TEMPLATE.cloneNode(true);
+  MAIN.appendChild(errorMessage);
+  errorMessage.addEventListener('click', () => {
+    MAIN.removeChild(errorMessage);
+  });
+  document.addEventListener('keydown', (evt) => {
+    deleteMessageHandler(evt, errorMessage);
+  }, {once: true});
 };
-
-ERROR_TEMPLATE.addEventListener('click', () => {
-  MAIN.removeChild(ERROR_TEMPLATE);
-});
-ERROR_TEMPLATE.addEventListener('keydown', (evt) => {
-  if (evt.key === ('Escape' || 'Esc')) {
-    MAIN.removeChild(ERROR_TEMPLATE);
-  }
-});
 
 AD_FORM.addEventListener('submit', (evt) => {
   evt.preventDefault();
